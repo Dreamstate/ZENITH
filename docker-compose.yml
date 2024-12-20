@@ -1,31 +1,45 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  # PostgreSQL Service
   db:
     image: postgres:13
-    container_name: postgres-container
     environment:
       POSTGRES_USER: zenith
       POSTGRES_PASSWORD: zenith
       POSTGRES_DB: zenith
-    ports:
-      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
 
-  # Zenith Backend Service
-  app:
-    build: .
-    container_name: go-app
-    ports:
-      - "8080:8080"
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgres://zenith:zenith@db:5432/zenith?sslmode=disable"
     depends_on:
       - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
     networks:
       - app-network
 

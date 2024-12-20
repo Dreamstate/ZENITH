@@ -1,7 +1,7 @@
 import logo from "./assets/logoipsum.svg"
 import './App.css'
 
-function App() {
+export default function App() {
   return (
     <>
       <h1>Hello world from Zenith!</h1>
@@ -9,5 +9,3 @@ function App() {
     </>
   )
 }
-
-export default App

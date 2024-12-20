@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine as build
+FROM golang:1.23-alpine as build
 
 WORKDIR /app
 
@@ -8,6 +8,6 @@ RUN go mod tidy
 
 COPY . .
 
-RUN go build -o main .
+RUN go build -o main ./cmd
 
 CMD ["./main"]

@@ -11,7 +11,7 @@ RUN npm run build
 FROM nginx:stable-alpine
 
 COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html
-COPY --chown=nginx:nginx nginx.conf /etc/nginx/nginx.conf
+COPY --chown=nginx:nginx docker/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
